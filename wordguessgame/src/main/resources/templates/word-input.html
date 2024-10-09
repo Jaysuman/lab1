@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Input</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div th:replace="navbar"></div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Word Input</h2>
+
+    <!-- Message Alert -->
+    <p th:if="${message}" th:text="${message}" class="alert alert-danger"></p>
+
+    <!-- Word Input Form -->
+    <div class="card">
+        <div class="card-body">
+            <form id="wordForm" action="/getWord" method="post" class="mt-4">
+                <!-- Word Image -->
+                <div class="mb-3 text-center">
+                    <img th:src="@{'/' + ${GivenImage}}" class="word_image img-fluid" alt="Word Image" />
+                </div>
+
+                <!-- Hints -->
+                <h4 class="text-center" th:text="${GivenHints}"></h4>
+
+                <!-- Word Input Boxes -->
+                <div id="letterInputs" class="d-flex justify-content-center mb-3">
+                    <!-- Dynamically add input boxes for each letter -->
+                    <input type="text" class="letter-box form-control" maxlength="1" required style="width: 40px; height: 40px;">
+                    <input type="text" class="letter-box form-control" maxlength="1" required style="width: 40px; height: 40px;">
+                    <input type="text" class="letter-box form-control" maxlength="1" required style="width: 40px; height: 40px;">
+                    <input type="text" class="letter-box form-control" maxlength="1" required style="width: 40px; height: 40px;">
+                    <input type="text" class="letter-box form-control" maxlength="1" required style="width: 40px; height: 40px;">
+                </div>
+
+                <!-- Hidden input to hold the concatenated word -->
+                <input type="hidden" id="word" name="word">
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Your Guess</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="footer"></div>
+<script th:href="@{js/bootstrap.bundle.min.js}"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    // Function to concatenate letter inputs before submitting the form
+    document.getElementById('wordForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Collect the letters from the input boxes
+        let letterInputs = document.querySelectorAll('.letter-box');
+        let word = '';
+        letterInputs.forEach(function(input) {
+            word += input.value; // Concatenate letter inputs
+        });
+
+        // Set the hidden input's value to the concatenated word
+        document.getElementById('word').value = word;
+
+        // Submit the form with the concatenated word
+        this.submit();
+    });
+</script>
+
+</body>
+</html>

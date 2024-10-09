@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        /* Custom Styling */
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .game-area {
+            max-width: 600px;
+            margin: 80px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-area h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .game-area h1 span {
+            color: #0066cc;
+        }
+
+        .score-text {
+            font-size: 2.5rem; /* Increase the score text size */
+            color: #0066cc; /* Optional: Change color of the score */
+            font-weight: bold;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+            display: block;
+        }
+
+        .form-select {
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto 20px; /* Center the dropdown and give space below */
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+            border: 1px solid #005bb5;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 10%; /* Adjusted the width to 10% */
+            display: block;
+            margin: 0 auto; /* Center button */
+        }
+
+        .btn-primary:hover {
+            background-color: #005bb5;
+            border: 1px solid #00499c;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .container {
+            padding: 0 15px;
+        }
+
+        /* Center the button and form fields using Bootstrap's Flex utility */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center; /* Ensures form is centered */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .game-area {
+                margin: 40px auto;
+                padding: 20px;
+            }
+
+            .form-label {
+                font-size: 14px;
+            }
+
+            .form-select {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="navbar"></div>
+
+<div class="container mt-5 game-area">
+    <h1 class="text-center">
+        <span th:text="${user.name}"></span>, Your Score is <span class="score-text" th:text="${user.score}"></span>
+    </h1>
+    <p th:if="${message}" th:text="${message}" style="color: red;" class="alert alert-danger"></p>
+
+    <!-- Aligned the select level and submit button vertically centered below the score -->
+    <form action="/word" method="post" class="mt-4 form-container">
+        <div class="mb-3">
+            <label for="level" class="form-label">Select Level:</label>
+            <select name="selectedLevel" id="level" class="form-select" required>
+                <option value="" disabled selected>Select a level</option>
+                <option th:each="level : ${levels}" th:value="${level}" th:text="${level}"></option>
+            </select>
+        </div>
+
+        <!-- Button width set to 10% and centered using d-flex -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<div th:replace="footer"></div>
+<script th:href="@{js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
